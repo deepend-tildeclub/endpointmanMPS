@@ -483,8 +483,15 @@ class Endpointman_Templates
 		} else {
 			$sql = "SELECT endpointman_model_list.max_lines, endpointman_model_list.model as model_name, endpointman_mac_list.global_custom_cfg_data, endpointman_product_list.config_files, endpointman_mac_list.*, endpointman_line_list.*, endpointman_model_list.id as model_id, endpointman_model_list.template_data, endpointman_product_list.id as product_id, endpointman_product_list.short_name, endpointman_product_list.cfg_dir, endpointman_brand_list.directory FROM endpointman_brand_list, endpointman_mac_list, endpointman_model_list, endpointman_product_list, endpointman_line_list WHERE endpointman_mac_list.id=" . $id . " AND endpointman_mac_list.id = endpointman_line_list.mac_id AND endpointman_mac_list.model = endpointman_model_list.id AND endpointman_model_list.brand = endpointman_brand_list.id AND endpointman_model_list.product_id = endpointman_product_list.id";
 		}
-		$row = sql($sql, 'getRow', DB_FETCHMODE_ASSOC);
-		
+$row = sql($sql, 'getRow', DB_FETCHMODE_ASSOC);
+
+	// Check if $row is an array before proceeding
+	if (!is_array($row)) {
+    		// Handle the error, for example, log it or set an error message
+    		// You might want to return from the function or throw an exception
+    		return; // or handle the error as needed
+		}
+
 		$sqlalt = "SELECT original_name as og FROM endpointman_custom_configs WHERE product_id = '" . $row['product_id'] . "'";
 		$rowalt = sql($sqlalt, 'getAll', DB_FETCHMODE_ASSOC);
 
